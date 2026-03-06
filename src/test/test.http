@@ -1,0 +1,64 @@
+# @openAiEndpoint={{$dotenv FOUNDRY_OPENAI_URL}}
+# @openAiKey={{$dotenv FOUNDRY_KEY}}
+# @apimEndpoint={{$dotenv APIM_V1_OPENAI_URL}}
+# @apimKey={{$dotenv APIM_V1_KEY}}
+@apimEndpoint={{$dotenv APIM_V2_OPENAI_URL}}
+@apimKey={{$dotenv APIM_V2_KEY}}
+
+
+# @useBackend=openai-ai-endpoint
+# @model=gpt-4o
+# @useBackend=claude-ai-endpoint
+# @model=claude-opus-4-6
+@useBackend=gemini-ai-endpoint
+@model=gemini-2.5-flash-lite
+
+@csThreshold=7
+
+###
+POST {{apimEndpoint}}/deployments/{{model}}/chat/completions
+    ?api-version=2025-01-01-preview
+Content-Type: application/json
+api-key: {{apimKey}}
+X-UseBackend: {{useBackend}}
+X-CS-Threshold: {{csThreshold}}
+
+{"messages":[{"role":"system","content":"Hi! Write me a prose in 100 words."},{"role":"user","content":"How are you?"}],"max_tokens":50}
+
+# ###
+# POST {{openAiEndpoint}}/deployments/{{model}}/chat/completions
+#     ?api-version=2025-01-01-preview
+# Content-Type: application/json
+# api-key: {{openAiKey}}
+
+# {"messages":[{"role":"system","content":"You are a helpful assistant"},{"role":"user","content":"How are you?"}],"max_tokens":50}
+
+# ###
+# POST {{openAiEndpoint}}/deployments/{{model}}/chat/completions
+#     ?api-version=2025-01-01-preview
+# Content-Type: application/json
+# Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyIsImtpZCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyJ9.eyJhdWQiOiJodHRwczovL2NvZ25pdGl2ZXNlcnZpY2VzLmF6dXJlLmNvbS8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8xNmIzYzAxMy1kMzAwLTQ2OGQtYWM2NC03ZWRhMDgyMGI2ZDMvIiwiaWF0IjoxNzcyNjk5Nzc3LCJuYmYiOjE3NzI2OTk3NzcsImV4cCI6MTc3Mjc4NjQ3NywiYWlvIjoiQVNRQTIvOGJBQUFBVGtlaHQ0YlRzaWZFZWJ3TUtKZXNIdkRCcE1hL3MvS2lPR09NVGVvVndyVT0iLCJhcHBpZCI6IjM2YmRjM2JlLTZmNTctNDEyOS1hZTNlLTk3MGJjYWM3OGZkNyIsImFwcGlkYWNyIjoiMiIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzE2YjNjMDEzLWQzMDAtNDY4ZC1hYzY0LTdlZGEwODIwYjZkMy8iLCJpZHR5cCI6ImFwcCIsIm9pZCI6ImNmNmE0ZDkzLWZmNTMtNDFjNS04MWY5LWQ3ZWFlODYxZGQ4NSIsInJoIjoiMS5BVVlBRThDekZnRFRqVWFzWkg3YUNDQzIwNUFpTVgzSUtEeEhvTzJPVTNTYmJXMEFBQUJHQUEuIiwic3ViIjoiY2Y2YTRkOTMtZmY1My00MWM1LTgxZjktZDdlYWU4NjFkZDg1IiwidGlkIjoiMTZiM2MwMTMtZDMwMC00NjhkLWFjNjQtN2VkYTA4MjBiNmQzIiwidXRpIjoiNXNsQTAwQ2EyMGV1djYyLVdmZW1BZyIsInZlciI6IjEuMCIsInhtc19hY3RfZmN0IjoiOSAzIiwieG1zX2F6X3RtIjoidXNlciIsInhtc19mdGQiOiJ1Wm1sV0RnQ3g0VjB4VTVhTXF0UGFuWGxuWFpra2g2eUFPZC04TlpTX05BQmFtRndZVzVsWVhOMExXUnpiWE0iLCJ4bXNfaWRyZWwiOiI3IDE2IiwieG1zX21pcmlkIjoiL3N1YnNjcmlwdGlvbnMvMjU5NWYyMWUtMWYzZS00NTAyLThhYTUtMDI1OTM4ZWYxYzhjL3Jlc291cmNlZ3JvdXBzL3JnLWFpc3RtLTEzN2IxYy9wcm92aWRlcnMvTWljcm9zb2Z0LkFwaU1hbmFnZW1lbnQvc2VydmljZS9hcGltLWFpc3RtLXYyLTEzN2IxYyIsInhtc19yZCI6IjAuNDJMbFlCSmlkQk1TNGVBVUV2am42dm51azZtTTktd2RFMjYxYVM3SkFJcHlDQWxNVURLc1BhRmg0NzdnYlY5d3llemNYS0FvdDVDQVdjejNPdDAtVWNrVGpGYmh4YnM1X2dFQSIsInhtc19zdWJfZmN0IjoiOSAzIn0.cUPS7adkPsEBSu0POynlnOrarMZSCInO4Osr2DIjS6DbfXo772Mvexkpna2vJpDQdyBwlq3tCYhGzV4T49RWqNsCbg7Vrw1Z4EC247eOxsOSIRlpcSHml6FA2zayNBz3AKZBqhBrGnP9J4htamDDgc2hvenC4oaSYJTnhHgFW27lqC4cVtsgMtw7ah2KSeklbhocl5iszRHRtvUgGY6c331BZ_gckJfZQ7lKtu3F6mzwIIT2a7PVeYzdvxU_Gk9c2RzQRvsPSUGSx_LaK7zHoltgArzLdAYU3Gb6eTIH9gLO5SFHyIz0pLQzf2JN6R6W0SzlEsoh5T7SggYuEcO6lw
+
+# {"messages":[{"role":"system","content":"You are a helpful assistant"},{"role":"user","content":"How are you?"}],"max_tokens":50}
+
+###
+# @name geminiDirect
+# Gemini API (OpenAI compatible) with static API key
+# Get your API key from: https://aistudio.google.com/apikey
+#
+@geminiEndpoint={{$dotenv GEMINI_OPENAI_URL}}
+@geminiApiKey={{$dotenv GEMINI_KEY}}
+@geminiModel=gemini-2.5-flash-lite
+
+POST {{geminiEndpoint}}/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{geminiApiKey}}
+
+{
+  "model": "{{geminiModel}}",
+  "messages": [
+    {"role": "system", "content": "You are a helpful assistant"},
+    {"role": "user", "content": "How are you?"}
+  ],
+  "max_tokens": 50
+}
